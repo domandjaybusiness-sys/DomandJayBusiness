@@ -1,6 +1,3 @@
-name = "iron-and-fire"
+name = "domandjaybusiness"
 compatibility_date = "2026-05-03"
 pages_build_output_dir = "./dist"
-
-[observability.logs]
-enabled = true
