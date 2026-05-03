@@ -6,4 +6,4 @@ Disallow: /admin
 Disallow: /booking-success
 
 # Sitemap
-Sitemap: https://ironandfire.netlify.app/sitemap.xml
+Sitemap: https://domandjaybusiness.pages.dev/sitemap.xml

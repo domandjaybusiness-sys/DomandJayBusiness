@@ -1,6 +1,5 @@
 # Dependencies
 node_modules/
-netlify/functions/node_modules/
 
 # Build output
 dist/
@@ -10,9 +9,6 @@ dist/
 .env
 .env.local
 .env.*.local
-
-# Netlify
-.netlify/
 
 # Editor
 .DS_Store

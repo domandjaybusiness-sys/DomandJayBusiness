@@ -277,7 +277,7 @@ function LoginScreen({ onLogin }) {
     e.preventDefault()
     setLoading(true)
     setError('')
-    const res = await fetch('/.netlify/functions/get-bookings', {
+    const res = await fetch('/api/get-bookings', {
       headers: { 'x-admin-password': pw },
     })
     if (res.ok) { sessionStorage.setItem('iaf_admin', pw); onLogin(pw) }
@@ -331,7 +331,7 @@ function ClassForm({ initial, onSave, onCancel, password }) {
     e.preventDefault()
     setSaving(true)
     setErr('')
-    const res = await fetch('/.netlify/functions/save-class', {
+    const res = await fetch('/api/save-class', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-admin-password': password },
       body: JSON.stringify(form),
@@ -424,7 +424,7 @@ export default function Admin() {
 
   const fetchClasses = useCallback(async () => {
     setLoadingClasses(true)
-    const res  = await fetch('/.netlify/functions/get-classes')
+    const res  = await fetch('/api/get-classes')
     const data = await res.json()
     setClasses(Array.isArray(data) ? data : [])
     setLoadingClasses(false)
@@ -432,7 +432,7 @@ export default function Admin() {
 
   const fetchBookings = useCallback(async () => {
     setLoadingBookings(true)
-    const res  = await fetch('/.netlify/functions/get-bookings', {
+    const res  = await fetch('/api/get-bookings', {
       headers: { 'x-admin-password': password },
     })
     const data = await res.json()
@@ -446,7 +446,7 @@ export default function Admin() {
   // Auto-login from session
   useEffect(() => {
     if (password) {
-      fetch('/.netlify/functions/get-bookings', { headers: { 'x-admin-password': password } })
+      fetch('/api/get-bookings', { headers: { 'x-admin-password': password } })
         .then(r => { if (r.ok) setAuthed(true) })
     }
   }, []) // eslint-disable-line
@@ -462,7 +462,7 @@ export default function Admin() {
   const handleStatusChange = useCallback(async (id, newStatus) => {
     setBookings(prev => prev.map(b => b.id === id ? { ...b, status: newStatus } : b))
     try {
-      await fetch('/.netlify/functions/update-booking', {
+      await fetch('/api/update-booking', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'x-admin-password': password },
         body: JSON.stringify({ id, status: newStatus }),
@@ -477,7 +477,7 @@ export default function Admin() {
     setBookings(prev => prev.filter(b => b.id !== id))
     setDeleteTarget(null)
     try {
-      await fetch('/.netlify/functions/delete-booking', {
+      await fetch('/api/delete-booking', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'x-admin-password': password },
         body: JSON.stringify({ id }),
@@ -488,7 +488,7 @@ export default function Admin() {
   // ── Class delete ──
   const handleDeleteClass = async (id) => {
     if (!confirm('Remove this class from the schedule?')) return
-    await fetch('/.netlify/functions/delete-class', {
+    await fetch('/api/delete-class', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-admin-password': password },
       body: JSON.stringify({ id }),

@@ -26,18 +26,33 @@ function BookingModal({ cls, onClose }) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
+  const parseApiResponse = async (res) => {
+    const contentType = res.headers.get('content-type') || ''
+    if (contentType.includes('application/json')) {
+      return res.json()
+    }
+
+    const text = await res.text()
+    return {
+      error: text && !text.startsWith('<!DOCTYPE html')
+        ? text
+        : 'Booking API is unavailable. Start the Cloudflare functions server or check your deployment settings.',
+    }
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
     setError('')
     try {
-      const res = await fetch('/.netlify/functions/create-checkout', {
+      const res = await fetch('/api/create-checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ classId: cls.id, memberName: form.name, memberEmail: form.email, memberPhone: form.phone }),
       })
-      const data = await res.json()
+      const data = await parseApiResponse(res)
       if (!res.ok) throw new Error(data.error || 'Something went wrong')
+      if (!data.url) throw new Error('Stripe checkout URL was not returned.')
       window.location.href = data.url
     } catch (err) {
       setError(err.message)
@@ -197,8 +212,20 @@ export default function Schedule() {
   const [searchParams] = useSearchParams()
 
   useEffect(() => {
-    fetch('/.netlify/functions/get-classes')
-      .then(r => r.json())
+    fetch('/api/get-classes')
+      .then(async (r) => {
+        const contentType = r.headers.get('content-type') || ''
+        if (!contentType.includes('application/json')) {
+          throw new Error('Schedule API is unavailable')
+        }
+
+        const data = await r.json()
+        if (!r.ok) {
+          throw new Error(data.error || 'Unable to load classes')
+        }
+
+        return data
+      })
       .then(data => {
         setClasses(data)
         const available = [...new Set(data.map(c => c.day))]
@@ -213,8 +240,11 @@ export default function Schedule() {
         }
         setLoading(false)
       })
-      .catch(() => {
-        setError('Unable to load classes. Please try again.')
+      .catch((err) => {
+        const message = err?.message === 'Schedule API is unavailable'
+          ? 'Unable to load classes. The booking API is not running yet.'
+          : 'Unable to load classes. Please try again.'
+        setError(message)
         setLoading(false)
       })
   }, [])

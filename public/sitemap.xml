@@ -1,46 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
   <url>
-    <loc>https://ironandfire.netlify.app/</loc>
+    <loc>https://domandjaybusiness.pages.dev/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <lastmod>2026-05-03</lastmod>
   </url>
-
-  <url>
-    <loc>https://ironandfire.netlify.app/classes</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-    <lastmod>2026-05-03</lastmod>
-  </url>
-
-  <url>
-    <loc>https://ironandfire.netlify.app/schedule</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-    <lastmod>2026-05-03</lastmod>
-  </url>
-
-  <url>
-    <loc>https://ironandfire.netlify.app/pricing</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-    <lastmod>2026-05-03</lastmod>
-  </url>
-
-  <url>
-    <loc>https://ironandfire.netlify.app/about</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-    <lastmod>2026-05-03</lastmod>
-  </url>
-
-  <url>
-    <loc>https://ironandfire.netlify.app/contact</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-    <lastmod>2026-05-03</lastmod>
-  </url>
-
 </urlset>

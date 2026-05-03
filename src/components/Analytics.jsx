@@ -3,12 +3,12 @@
  *
  * What it does:
  *   - Respects the browser's Do Not Track (DNT) signal
- *   - Fires a lightweight POST to /.netlify/functions/track on each
+ *   - Fires a lightweight POST to /api/track on each
  *     route change with only: page path + referrer (no PII, no cookies)
  *   - Falls back silently if the function doesn't exist (dev / pre-deploy)
  *
  * To enable:
- *   1. Create netlify/functions/track.js that stores the event
+ *   1. Create functions/api/track.js that stores the event
  *      (or swap the endpoint for Plausible / Fathom / Umami).
  *   2. Mount <Analytics /> in App.jsx (already done).
  *
@@ -44,7 +44,7 @@ export default function Analytics() {
     }
 
     // Fire-and-forget — errors are swallowed intentionally
-    fetch('/.netlify/functions/track', {
+    fetch('/api/track', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
