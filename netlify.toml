@@ -1,0 +1,39 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+  functions = "netlify/functions"
+
+# ── Security Headers ─────────────────────────────────────────────────────────
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # Allowlist approach: only same-origin scripts, Google Fonts for styles/fonts.
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co https://api.stripe.com; frame-src https://www.openstreetmap.org; frame-ancestors 'none'; base-uri 'self'; form-action 'self';"
+    # Prevent clickjacking via iframe embedding.
+    X-Frame-Options = "DENY"
+    # Stop browsers sniffing MIME types (content-type confusion attacks).
+    X-Content-Type-Options = "nosniff"
+    # Force HTTPS for 1 year, include subdomains, opt into preload list.
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    # Only send origin as referrer for cross-origin requests.
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    # Disable features not needed by this site.
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
+
+# Cache static assets aggressively (content-hashed by Vite).
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Never cache the HTML shell.
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+
+# SPA fallback.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

@@ -1,0 +1,223 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background-color: #131009;
+    color: #f0f0f0;
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
+  ::selection { background: #e84118; color: #fff; }
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: #050403; }
+  ::-webkit-scrollbar-thumb { background: linear-gradient(180deg,#e84118,#c0300e); border-radius: 3px; }
+}
+
+@layer components {
+  .container-site { @apply max-w-7xl mx-auto px-6; }
+
+  /* Fire gradient text */
+  .fire-text {
+    background: linear-gradient(135deg, #ff4a1c 0%, #f0932b 55%, #ffc04a 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 22px rgba(232,65,24,0.45));
+  }
+
+  /* Metallic shimmer on text */
+  .shimmer-text {
+    position: relative;
+    overflow: hidden;
+  }
+  .shimmer-text::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    background: linear-gradient(105deg,transparent 38%,rgba(255,210,100,0.18) 46%,rgba(255,255,255,0.22) 50%,rgba(255,210,100,0.18) 54%,transparent 62%);
+    background-size: 250% 100%;
+    animation: shimmer 4s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  /* Fire word reveal */
+  .fw { position: relative; display: inline-block; }
+  .fw::after {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #ff5020 0%, #f0932b 45%, #ffd050 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    clip-path: inset(0 100% 0 0);
+    animation: fireReveal 5s cubic-bezier(0.42,0,0.38,1) infinite;
+    pointer-events: none;
+  }
+
+  /* Card base */
+  .card-base {
+    @apply bg-card border rounded-2xl transition-all duration-300;
+    border-color: rgba(232,65,24,0.15);
+  }
+  .card-base:hover {
+    border-color: rgba(232,65,24,0.35);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.5), 0 0 30px rgba(232,65,24,0.08);
+    transform: translateY(-3px);
+  }
+
+  /* Section tag */
+  .section-tag {
+    @apply inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-ember text-xs font-semibold tracking-[0.15em] uppercase mb-4;
+    background: rgba(232,65,24,0.1);
+    border: 1px solid rgba(232,65,24,0.28);
+  }
+
+  /* Input styles */
+  .input-field {
+    @apply w-full bg-card2 border rounded-xl px-4 py-3.5 text-white text-sm placeholder-muted outline-none transition-all duration-200;
+    border-color: rgba(232,65,24,0.18);
+  }
+  .input-field:focus {
+    border-color: rgba(232,65,24,0.55);
+    box-shadow: 0 0 0 3px rgba(232,65,24,0.1);
+  }
+
+  /* ── Luxury gold metallic shimmer ── */
+  .luxury-shimmer {
+    display: inline-block;
+    background: linear-gradient(
+      90deg,
+      #5c1008 0%,
+      #7a1a08 8%,
+      #a02010 18%,
+      #c0300e 28%,
+      #d4500a 36%,
+      #f0932b 44%,
+      #ffd060 49%,
+      #fff5d6 51%,
+      #ffd060 53%,
+      #f0932b 58%,
+      #d4500a 66%,
+      #c0300e 74%,
+      #a02010 84%,
+      #7a1a08 93%,
+      #5c1008 100%
+    );
+    background-size: 280% 100%;
+    background-position: 78% center;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: luxuryShimmer 4.5s ease-in-out infinite;
+  }
+
+  /* ── Global button glow on hover ── */
+  a[class*="from-fire"]:hover,
+  button[class*="from-fire"]:hover {
+    box-shadow: 0 0 32px rgba(232,65,24,0.45), 0 8px 24px rgba(0,0,0,0.4);
+  }
+
+  /* ── Smooth page-wide transitions ── */
+  * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+  /* Top border accent on cards */
+  .card-accent::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #c0300e 0%, #e84118 40%, #f0932b 70%, rgba(240,200,80,0.4) 100%);
+    border-radius: 12px 12px 0 0;
+  }
+}
+
+@keyframes luxuryShimmer {
+  0%, 100% {
+    background-position: 78% center;
+    filter: drop-shadow(0 0 5px rgba(232, 65, 24, 0.35));
+  }
+  20% {
+    filter: drop-shadow(0 0 10px rgba(255, 160, 30, 0.28));
+  }
+  46% {
+    background-position: 52% center;
+    filter: drop-shadow(0 0 42px rgba(255, 222, 100, 0.80))
+            drop-shadow(0 0 85px rgba(255, 160, 30, 0.42))
+            drop-shadow(0 0 130px rgba(232, 65, 24, 0.22));
+  }
+  54% {
+    background-position: 44% center;
+    filter: drop-shadow(0 0 42px rgba(255, 222, 100, 0.80))
+            drop-shadow(0 0 85px rgba(255, 160, 30, 0.42))
+            drop-shadow(0 0 130px rgba(232, 65, 24, 0.22));
+  }
+  80% {
+    filter: drop-shadow(0 0 10px rgba(255, 160, 30, 0.28));
+  }
+}
+
+/* ── Letter breathing pulse ── */
+@keyframes letterBreathe {
+  0%, 100% {
+    transform: scale(1) translateY(0px);
+  }
+  50% {
+    transform: scale(1.016) translateY(-2px);
+  }
+}
+
+.breathe-iron {
+  display: inline-block;
+  animation: letterBreathe 4.2s ease-in-out infinite;
+  transform-origin: center bottom;
+}
+
+.breathe-fire {
+  display: inline-block;
+  animation: letterBreathe 4.2s ease-in-out infinite;
+  animation-delay: 2.1s;
+  transform-origin: center bottom;
+}
+
+
+/* ── Focus-visible: keyboard navigation ring ─────────────────────────────── */
+:focus-visible {
+  outline: 2px solid #e84118;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+/* Remove focus ring for mouse/pointer users */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fw::after, .shimmer-text::after { animation: none; }
+  .fw::after { clip-path: inset(0 0% 0 0); }
+  .luxury-shimmer { animation: none; background-position: 78% center; filter: drop-shadow(0 0 5px rgba(232,65,24,0.35)); }
+  .breathe-iron, .breathe-fire { animation: none; }
+
+  /* Suppress card hover transform for vestibular sensitivity */
+  .card-base:hover { transform: none !important; }
+  /* Suppress pulsing indicator dots */
+  .animate-pulse { animation: none; }
+}
+
+/* ── Cinematic film grain overlay ── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0.032;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 260px 260px;
+  mix-blend-mode: overlay;
+}
